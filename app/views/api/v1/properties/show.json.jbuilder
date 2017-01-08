@@ -1,0 +1,1 @@
+json.partial! "api_v1_properties/api_v1_property", api_v1_property: @api_v1_property

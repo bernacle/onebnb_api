@@ -1,0 +1,1 @@
+json.array! @api_v1_properties, partial: 'api_v1_properties/api_v1_property', as: :api_v1_property
