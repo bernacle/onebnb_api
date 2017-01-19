@@ -8,7 +8,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       # Aqui estamos setando a chamada como json (isso pega a URL users.json ao invés de users)
       request.env["HTTP_ACCEPT"] = 'application/json'
       # Aqui estamos preparando os atributos que serão atualizados no User
-      @new_attributes = {name: FFaker::Name.name}
+      @new_attributes = {name: FFaker::Name.name, email: FFaker::Internet.email}
     end
 
     context "with valid params and tokens" do
@@ -18,10 +18,10 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
 
       it "updates the requested user" do
-        @name = FFaker::Name.name
         put :update, params: {id: @user.id, user: @new_attributes}
         @user.reload
         expect(@user.name).to eql(@new_attributes[:name])
+        expect(@user.email).to eql(@new_attributes[:email])
       end
     end
 
