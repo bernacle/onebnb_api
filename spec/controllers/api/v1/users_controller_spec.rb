@@ -8,7 +8,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       # Aqui estamos setando a chamada como json (isso pega a URL users.json ao invés de users)
       request.env["HTTP_ACCEPT"] = 'application/json'
       # Aqui estamos preparando os atributos que serão atualizados no User
-      @new_attributes = {name: FFaker::Name.name, email: FFaker::Internet.email}
+      @new_attributes = {name: FFaker::Name.name}
     end
 
     context "with valid params and tokens" do
@@ -18,10 +18,17 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
 
       it "updates the requested user" do
+        @name = FFaker::Name.name
         put :update, params: {id: @user.id, user: @new_attributes}
         @user.reload
         expect(@user.name).to eql(@new_attributes[:name])
-        expect(@user.email).to eql(@new_attributes[:email])
+      end
+
+      it "updates the requested user with photo" do
+        @attributes_with_photo = @new_attributes.merge!(photo: ('data:image/png;base64,' + Base64.encode64(file_fixture('file.png').read)))
+        put :update, params: {id: @user.id, user: @attributes_with_photo}
+        @user.reload
+        expect(@user.photo.present?).to eql(true)
       end
     end
 
@@ -33,4 +40,5 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
   end
+
 end
