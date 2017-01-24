@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: drflbaoza
+  api_key: '659822589951411'
+  api_secret: FZIO1WTIvJ-1iwBdbTH2h2H5Qo0
+  enhance_image_tag: true
+  static_image_support: false
+production:
+  cloud_name: drflbaoza
+  api_key: '659822589951411'
+  api_secret: FZIO1WTIvJ-1iwBdbTH2h2H5Qo0
+  enhance_image_tag: true
+  static_image_support: true
+test:
+  cloud_name: drflbaoza
+  api_key: '659822589951411'
+  api_secret: FZIO1WTIvJ-1iwBdbTH2h2H5Qo0
+  enhance_image_tag: true
+  static_image_support: false
