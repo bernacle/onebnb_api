@@ -1,10 +1,8 @@
 class Property < ApplicationRecord
-  # Os possiveis status de uma Propriedade
-  enum status: [:active, :pending, :inactive, :blocked]
-
+  # Os possíveis status de uma Propriedades
+  enum status: [ :active, :pending, :inactive, :blocked ]
   # Os tipos de acomodação: casa inteira, quarto inteiro e quarto compartilhado
-  enum accommodation_type: [:whole_house, :whole_bedroom, :shared_bedroom]
-
+  enum accommodation_type: [ :whole_house, :whole_bedroom, :shared_bedroom ]
 
   belongs_to :user
   belongs_to :address
@@ -28,5 +26,5 @@ class Property < ApplicationRecord
       refrigerato: facility.refrigerator,
       heater: facility.heater
     }
-
+  end
 end

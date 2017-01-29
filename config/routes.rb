@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+
       mount_devise_token_auth_for 'User', at: 'auth'
       get 'users/wishlist', to: 'users#wishlist'
       resources :users, only: [:update]
+
       get 'search', to: 'properties#search'
       resources :properties do
         member do
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
           delete 'wishlist', to: 'properties#remove_from_wishlist'
         end
       end
+
     end
   end
 end
