@@ -16,20 +16,17 @@ class Api::V1::PropertiesController < ApplicationController
   def search
     # Caso o usuário não coloque nenhuma informação pesquisamos por qualquer uma
     search_condition = params[:search] || '*'
-
     # Caso não esteja sendo selecionado por página, pegamos a primeira
     page = params[:page] || 1
-
     # Filtra por status, presença de wifi, máquina de lavar e etc
     # Faça você mesmo \o/
-   conditions = {status: :active}
+    conditions = {status: :active}
 
-   # Realizamos a busca do ElasticSearch
-    @api_v1_properties = (Property.search search_condition, where: conditions,  page: page, per_page: 18)
-    # reaproveitamento de template jbuilder, o template criado em jbuilder no views/properties é aproveitado
+    # Realizamos a busca do ElasticSearch
+    @api_v1_properties = Property.search search_condition, where: conditions,  page: page, per_page: 18
+    # @total_results = @api_v1_properties.response['hits']['total']
     render template: '/api/v1/properties/index', status: 200
   end
-
 
   # POST /api/v1/properties.json
   def create
