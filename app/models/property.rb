@@ -9,8 +9,13 @@ class Property < ApplicationRecord
   belongs_to :facility
   has_many :wishlists
   has_many :photos
+  has_many :comments
   searchkick
-  validates_presence_of :user
+
+  # Força a ter esses campos preenchidos para criar um Property
+  validates_presence_of :address, :facility, :user, :status, :price, :photos,
+                        :accommodation_type, :beds, :bedroom, :bathroom, :guest_max,
+                      #  :description
 
   def search_data
     {
