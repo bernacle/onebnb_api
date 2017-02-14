@@ -6,8 +6,8 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   mount_base64_uploader :photo, PhotoUploader
   has_many :wishlists
-  has_many :properties
-  enum kind: [:user, :admin]
+  enum kind: [ :user, :admin ]
   has_many :comments
+  has_many :properties
   belongs_to :address
 end
