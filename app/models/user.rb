@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :properties
   belongs_to :address
+  has_many :reservations
 end

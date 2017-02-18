@@ -19,6 +19,10 @@ class Property < ApplicationRecord
                         :accommodation_type, :beds, :bedroom, :bathroom, :guest_max,
                         :description
 
+  def get_rating
+    self.rating.round
+  end
+
   def search_data
     {
       name: name,
