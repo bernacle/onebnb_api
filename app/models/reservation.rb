@@ -7,7 +7,7 @@ class Reservation < ApplicationRecord
   validates_presence_of :property, :user
 
   def evaluate (comment, new_rating)
-    Reservation.transaction do
+    Reservation.transaction do #transaction reverts everything that was committed in db if something go wrong
       property = self.property
 
       # Gera um Novo comentário
