@@ -5,7 +5,6 @@ class Api::V1::PropertiesController < ApplicationController
   # GET /api/v1/properties
   # GET /api/v1/properties.json
   def index
-    @current_api_v1_user = current_api_v1_user
     @api_v1_properties = Property.all
   end
 
@@ -43,6 +42,7 @@ class Api::V1::PropertiesController < ApplicationController
       render json: errors, status: :unprocessable_entity
     end
   end
+
 
   # GET /api/v1/search
   def search
