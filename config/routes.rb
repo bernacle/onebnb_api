@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :talks do
         member do
           get 'messages', to: 'talks#messages'
+          post 'talks/(:id)/messages', to: 'talks#create_message'
         end
       end
 
