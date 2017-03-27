@@ -3,6 +3,7 @@ class Reservation < ApplicationRecord
   belongs_to :property
   belongs_to :user
   has_many   :talks
+  before_create :set_pending_status
 
   # Força a ter esses campos preenchidos para criar um Reservation
   validates_presence_of :property, :user
@@ -22,6 +23,10 @@ class Reservation < ApplicationRecord
       self.evaluation = true
       self.save!
     end
+  end
+
+  def set_pending_status
+    self.status ||= :pending
   end
 
   def interval
