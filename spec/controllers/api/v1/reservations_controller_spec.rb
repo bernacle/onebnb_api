@@ -1,39 +1,64 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::ReservationsController, type: :controller do
+
+  describe "GET #get_by_property" do
+    before do
+      @user = create(:user)
+      @auth_headers = @user.create_new_auth_token
+      request.env["HTTP_ACCEPT"] = 'application/json'
+    end
+   
+    context "with valid params and 4 reservations" do
+      before do
+        request.headers.merge!(@auth_headers)
+        @property1 = create(:property, status: :active, rating: 5, user: @user)
+        @reservation1 = create(:reservation, property: @property1, evaluation: true)
+        @reservation2 = create(:reservation, property: @property1, evaluation: true)
+        @reservation3 = create(:reservation, property: @property1, evaluation: true)
+        @reservation4 = create(:reservation, property: @property1, evaluation: true)
+      end
+
+      it "receive 4 reservations" do
+        get :get_by_property, params: {id: @property1.id}
+        expect(JSON.parse(response.body).count).to eql(4)
+      end
+    end
+  end
+
   describe "POST #create" do
-before do
-  @user = create(:user)
-  @auth_headers = @user.create_new_auth_token
-  request.env["HTTP_ACCEPT"] = 'application/json'
-end
+    before do
+      @user = create(:user)
+      @auth_headers = @user.create_new_auth_token
+      request.env["HTTP_ACCEPT"] = 'application/json'
+    end
 
-context "with valid params" do
-  before do
-    request.headers.merge!(@auth_headers)
-    @property1 = create(:property, status: :active, rating: 5)
-  end
+    context "with valid params" do
+      before do
+        request.headers.merge!(@auth_headers)
+        @property1 = create(:property, status: :active, rating: 5)
+      end
 
-  it "create a valid reservation" do
-    post :create, params: {reservation: {property_id: @property1.id, checkin_date: Date.today - 10.day, checkout_date: Date.today + 10.day}}
-    expect(Reservation.all.count).to eql(1)
-  end
+      it "create a valid reservation" do
+        post :create, params: {reservation: {property_id: @property1.id, checkin_date: Date.today - 10.day, checkout_date: Date.today + 10.day}}
+        expect(Reservation.all.count).to eql(1)
+      end
 
-  it "create a reservation with correspondents fields" do
-    new_reservation_params = {reservation: {property_id: @property1.id, checkin_date: Date.today - 10.day, checkout_date: Date.today + 10.day}}
+      it "create a reservation with correspondents fields" do
+        new_reservation_params = {reservation: {property_id: @property1.id, checkin_date: Date.today - 10.day, checkout_date: Date.today + 10.day}}
 
-    post :create, params: new_reservation_params
+        post :create, params: new_reservation_params
 
-    @reservation = Reservation.last
+        @reservation = Reservation.last
 
-    expect(@reservation.property_id).to eql(new_reservation_params[:reservation][:property_id])
-    expect(@reservation.checkin_date).to eql(new_reservation_params[:reservation][:checkin_date])
-    expect(@reservation.checkout_date).to eql(new_reservation_params[:reservation][:checkout_date])
-    expect(@reservation.user).to eql(@user)
-  end
+        expect(@reservation.property_id).to eql(new_reservation_params[:reservation][:property_id])
+        expect(@reservation.checkin_date).to eql(new_reservation_params[:reservation][:checkin_date])
+        expect(@reservation.checkout_date).to eql(new_reservation_params[:reservation][:checkout_date])
+        expect(@reservation.user).to eql(@user)
+      end
 
-  # (Criar o teste) return a json with correspondents fields
-end
+      # (Criar o teste) return a json with correspondents fields
+    end
 
   describe "GET #evaluation" do
     before do

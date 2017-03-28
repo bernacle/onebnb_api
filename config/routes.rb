@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       get 'autocomplete', to: 'properties#autocomplete'
       get 'trips', to: 'properties#trips'
       get 'my_properties', to: 'properties#my_properties'
+      get 'get_by_property', to: 'reservations#get_by_property'
       resources :properties do
         member do
           post 'wishlist', to: 'properties#add_to_wishlist'
