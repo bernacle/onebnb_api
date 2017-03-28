@@ -44,6 +44,23 @@ class Api::V1::PropertiesController < ApplicationController
   end
 
 
+# GET /api/v1/trips.json
+def trips
+  begin
+    @properties = {}
+    # Próximas
+    @properties[:next] = current_api_v1_user.reservations.where(status: :active).map {|r| r.property}
+    # Anteriores
+    @properties[:previous] = current_api_v1_user.reservations.where(status: :finished).map {|r| r.property}
+    # Pending
+    @properties[:pending] = current_api_v1_user.reservations.where(status: :pending).map {|r| r.property}
+    # Wishlist
+    @properties[:wishlist] = current_api_v1_user.wishlists.map {|w| w.property}
+  rescue Exception => errors
+    render json: errors, status: :unprocessable_entity
+  end
+end
+
   # GET /api/v1/search
   def search
     # Caso o usuário não coloque nenhuma informação pesquisamos por qualquer uma
