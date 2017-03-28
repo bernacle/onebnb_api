@@ -121,6 +121,16 @@ end
     end
   end
 
+  # GET /api/v1/my_properties
+  # GET /api/v1/my_properties.json
+  def my_properties
+    @api_v1_properties = current_api_v1_user.properties.
+                                      includes(:reservations).
+                                      order("reservations.created_at DESC")
+
+    render template: '/api/v1/properties/index', status: 200
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_api_v1_property
